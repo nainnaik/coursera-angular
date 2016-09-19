@@ -3,29 +3,28 @@
 angular.module('lunchChecker',[])
 		.controller("LunchCheckController",LunchCheckController);
 		function LunchCheckController($scope) {
-			$scope.menu='';
-			$scope.MenuItems='';
+			$scope.foodItems='';
 			$scope.msg;
 			LunchCheckController.$inject=[$scope];
 
-			$scope.lunchCount =function() {
-				var totalMenuItem=calculateLunchItem($scope.menu);
-				$scope.MenuItems=totalMenuItem;
+			$scope.checkLunch =function() {
+				var totalLunchEntries = countLunchEntries($scope.foodItems);
+				
+				if(totalLunchEntries <= 0) {
+					$scope.msg="Please enter data first";
+				}
+				else if(totalLunchEntries.length <= 3){
+					$scope.msg= "Enjoy!!";
+				}
+				else {
+					 $scope.msg="Too Much!!";
+				}
 			};
 			
-			function calculateLunchItem(str){						
-				var menuLength =str.split(",");	
-				if(!str.trim()){
-				$scope.msg="Please enter data first";
-				}
-				else if(menuLength.length<= 3){
-						$scope.msg= "Enjoy!!";
-				}
-				else{
-					 $scope.msg="Too Much!!";
-					}
-				
+			function countLunchEntries(lunchEntries){						
+				return lunchEntries.trim()
+								  .split(",");	
 			}
-	}
+		}
 	 	
 })(); 		
